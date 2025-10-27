@@ -106,6 +106,7 @@ if uploaded_file:
             output = io.BytesIO()
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
             
+            # 새 엑셀 파일 생성 (기존 시트와 충돌 없음)
             with pd.ExcelWriter(output, engine='openpyxl') as writer:
                 df_filtered.to_excel(writer, sheet_name='데이터', index=False)
                 df_filtered.describe().to_excel(writer, sheet_name='통계')
