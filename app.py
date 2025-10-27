@@ -87,39 +87,13 @@ with tab1:
 # ==================== 기능 2: 파일명 일괄 수정 ====================
 with tab2:
     st.header("✏️ 폴더 내 모든 파일들의 제목 수정")
-    st.markdown("파일명을 규칙에 맞게 일괄 변경합니다.")
+    st.markdown("지정하시는 확장자의 파일명 앞에 지정하신 내용을 추가합니다")
+    st.markdown("**폴더를 지정한 후 오른쪽 내용을 채워 실행하기를 눌러 주세요**")
     
     # 레이아웃
-    col_left, col_right = st.columns([3, 1])
+    col_folder, col_opt1, col_opt2, col_opt3 = st.columns([1, 1, 1, 1])
     
-    with col_left:
-        # 옵션 설정
-        col_opt1, col_opt2, col_opt3 = st.columns(3)
-        
-        with col_opt1:
-            # 확장자 선택 (나중에 동적으로 채워짐)
-            ext_options = st.session_state.get('ext_options', ['모든 파일'])
-            selected_ext = st.selectbox("📄 파일 확장자", ext_options, key="ext_select")
-        
-        with col_opt2:
-            sort_by = st.selectbox(
-                "📊 정렬 기준",
-                ["이름순", "날짜순 (오래된 순)", "날짜순 (최신 순)", "크기순 (작은 순)", "크기순 (큰 순)"]
-            )
-        
-        with col_opt3:
-            naming_type = st.selectbox(
-                "🔤 파일명 형식",
-                ["숫자 추가", "특정 문자 추가"]
-            )
-        
-        # 특정 문자 입력란 (조건부 표시)
-        if naming_type == "특정 문자 추가":
-            custom_text = st.text_input("✍️ 추가할 문자", placeholder="예: 여행사진", key="custom_text")
-        else:
-            custom_text = None
-    
-    with col_right:
+    with col_folder:
         folder_path_2 = st.text_input("📁 폴더 경로", key="folder2", placeholder="C:\\Users\\...")
         
         # 폴더가 지정되면 확장자 목록 추출
@@ -136,6 +110,30 @@ with tab2:
                 st.success(f"✅ {len(extensions)-1}개 확장자 발견")
             except:
                 pass
+    
+    # 옵션 설정
+    with col_opt1:
+        # 확장자 선택 (나중에 동적으로 채워짐)
+        ext_options = st.session_state.get('ext_options', ['모든 파일'])
+        selected_ext = st.selectbox("📄 파일 확장자", ext_options, key="ext_select")
+    
+    with col_opt2:
+        sort_by = st.selectbox(
+            "📊 정렬 기준",
+            ["이름순", "날짜순 (오래된 순)", "날짜순 (최신 순)", "크기순 (작은 순)", "크기순 (큰 순)"]
+        )
+    
+    with col_opt3:
+        naming_type = st.selectbox(
+            "🔤 파일명 형식",
+            ["숫자 추가", "특정 문자 추가"]
+        )
+    
+    # 특정 문자 입력란 (조건부 표시)
+    if naming_type == "특정 문자 추가":
+        custom_text = st.text_input("✍️ 추가할 문자", placeholder="예: 여행사진", key="custom_text")
+    else:
+        custom_text = None
     
     if st.button("🚀 파일명 변경 시작", key="rename_btn", use_container_width=True):
         if not folder_path_2 or not os.path.exists(folder_path_2):
@@ -177,12 +175,13 @@ with tab2:
                         with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
                             for idx, file_path in enumerate(all_files, 1):
                                 ext = os.path.splitext(file_path)[1]
+                                original_name = os.path.basename(file_path)
                                 
-                                # 새 파일명 생성
+                                # 새 파일명 생성 (원본 파일명 앞에 내용 추가)
                                 if naming_type == "숫자 추가":
-                                    new_name = f"{idx:04d}_{os.path.basename(file_path)}"
+                                    new_name = f"{idx:04d}_{original_name}"
                                 else:  # 특정 문자 추가
-                                    new_name = f"{custom_text}_{idx:04d}{ext}"
+                                    new_name = f"{custom_text}_{original_name}"
                                 
                                 # ZIP에 추가
                                 zip_file.write(file_path, new_name)
@@ -203,13 +202,12 @@ with tab2:
                         # 변경 결과 미리보기
                         with st.expander("📋 변경된 파일명 미리보기"):
                             for idx, file_path in enumerate(all_files[:50], 1):
-                                ext = os.path.splitext(file_path)[1]
                                 old_name = os.path.basename(file_path)
                                 
                                 if naming_type == "숫자 추가":
                                     new_name = f"{idx:04d}_{old_name}"
                                 else:
-                                    new_name = f"{custom_text}_{idx:04d}{ext}"
+                                    new_name = f"{custom_text}_{old_name}"
                                 
                                 st.text(f"{old_name} → {new_name}")
                             
