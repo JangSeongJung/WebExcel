@@ -19,13 +19,13 @@ with tab1:
     st.header("📂 폴더 내 모든 파일을 한 폴더에 놓기")
     st.markdown("하위 폴더의 모든 파일을 한 곳에 모아서 다운로드합니다.")
     
-    col1, col2 = st.columns([3, 1])
+    col1, col2 = st.columns([1, 3])
     
     with col1:
-        st.info("💡 왼쪽에서 폴더를 선택하고 처리 버튼을 누르세요")
+        folder_path_1 = st.text_input("📁 폴더 경로", key="folder1", placeholder="C:\\Users\\...")
     
     with col2:
-        folder_path_1 = st.text_input("📁 폴더 경로", key="folder1", placeholder="C:\\Users\\...")
+        st.info("💡 폴더를 지정하고 처리 버튼을 누르세요")
     
     if st.button("🚀 파일 모으기 시작", key="collect_btn", use_container_width=True):
         if not folder_path_1 or not os.path.exists(folder_path_1):
