@@ -1,4 +1,4 @@
-# advanced_app.py - 더 많은 기능 포함
+# advanced_app.py - 오류 수정 버전
 import streamlit as st
 import pandas as pd
 import io
@@ -42,7 +42,8 @@ if uploaded_file:
         if remove_duplicates:
             before = len(df)
             df = df.drop_duplicates()
-            st.info(f"🔄 중복 제거: {before - len(df)}개 행 제거됨")
+            if before > len(df):
+                st.info(f"🔄 중복 제거: {before - len(df)}개 행 제거됨")
         
         if fill_na:
             df = df.fillna(0)
@@ -53,7 +54,7 @@ if uploaded_file:
         cols = st.multiselect(
             "컬럼을 선택하세요 (여러 개 가능)",
             df.columns.tolist(),
-            default=df.columns.tolist()[:3]
+            default=df.columns.tolist()[:min(3, len(df.columns))]
         )
         
         if cols:
@@ -88,40 +89,50 @@ if uploaded_file:
             # 그룹별 집계
             st.subheader("📈 그룹별 집계")
             if len(df_filtered.columns) >= 2:
-                group_col = st.selectbox("그룹화할 컬럼", df_filtered.columns)
-                agg_col = st.selectbox("집계할 컬럼", df_filtered.select_dtypes(include=['number']).columns)
-                
-                if group_col and agg_col:
-                    grouped = df_filtered.groupby(group_col)[agg_col].sum().sort_values(ascending=False)
+                numeric_cols = df_filtered.select_dtypes(include=['number']).columns
+                if len(numeric_cols) > 0:
+                    group_col = st.selectbox("그룹화할 컬럼", df_filtered.columns)
+                    agg_col = st.selectbox("집계할 컬럼", numeric_cols)
                     
-                    col1, col2 = st.columns([2, 1])
-                    with col1:
-                        st.bar_chart(grouped)
-                    with col2:
-                        st.dataframe(grouped)
+                    if group_col and agg_col:
+                        grouped = df_filtered.groupby(group_col)[agg_col].sum().sort_values(ascending=False)
+                        
+                        col1, col2 = st.columns([2, 1])
+                        with col1:
+                            st.bar_chart(grouped)
+                        with col2:
+                            st.dataframe(grouped)
             
             # 결과 다운로드
             st.subheader("💾 결과 다운로드")
             
+            # 새로운 BytesIO 객체 생성 (완전히 새 파일)
             output = io.BytesIO()
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
             
-            # 새 엑셀 파일 생성 (기존 시트와 충돌 없음)
+            # 엑셀 작성 - mode 지정 없이 새 파일로
             with pd.ExcelWriter(output, engine='openpyxl') as writer:
-                df_filtered.to_excel(writer, sheet_name='데이터', index=False)
-                df_filtered.describe().to_excel(writer, sheet_name='통계')
+                # 처리된 데이터
+                df_filtered.to_excel(writer, sheet_name='처리된데이터', index=False)
                 
+                # 통계
+                df_filtered.describe().to_excel(writer, sheet_name='통계정보')
+                
+                # 그룹 요약 (조건부)
                 if len(df_filtered.columns) >= 2:
                     numeric_cols = df_filtered.select_dtypes(include=['number']).columns
-                    if len(numeric_cols) > 0:
-                        summary = df_filtered.groupby(df_filtered.columns[0])[numeric_cols[0]].sum()
-                        summary.to_excel(writer, sheet_name='요약')
+                    if len(numeric_cols) > 0 and group_col and agg_col:
+                        try:
+                            grouped.to_excel(writer, sheet_name='그룹요약')
+                        except:
+                            pass
             
+            # BytesIO 포인터를 처음으로
             output.seek(0)
             
             st.download_button(
                 label="📥 Excel 다운로드",
-                data=output,
+                data=output.getvalue(),
                 file_name=f"분석결과_{timestamp}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 use_container_width=True
