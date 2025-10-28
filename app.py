@@ -6,9 +6,22 @@ import os
 
 st.set_page_config(page_title="컴퓨터 정리의 기본", layout="wide", page_icon="📁")
 
+# 세션 상태 초기화 함수
+def reset_tab1():
+    st.session_state['uploader_tab1'] = None
+    st.rerun()
+
+def reset_tab2():
+    st.session_state['uploader_tab2'] = None
+    st.rerun()
+
+def reset_tab3():
+    st.session_state['uploader_tab3'] = None
+    st.rerun()
+
 st.title("📁 컴퓨터 정리의 기본")
 
-tab1, tab2 = st.tabs(["📂 모든 파일 한 곳에 모으기", "✏️ 파일명 일괄 수정"])
+tab1, tab2, tab3 = st.tabs(["📂 모든 파일 한 곳에 모으기", "✏️ 파일명 일괄 수정", "📦 압축파일 자동 해제"])
 
 # ==================== 기능 1: 파일 모으기 ====================
 with tab1:
@@ -69,6 +82,9 @@ with tab1:
                             st.text(f"{i}. {file_name.split('/')[-1]}")
                         if len(all_files) > 100:
                             st.text(f"... 외 {len(all_files) - 100}개")
+                    
+                    # 처음으로 버튼
+                    st.button("🔄 처음으로", on_click=reset_tab1, use_container_width=True)
         
         except Exception as e:
             st.error(f"❌ 오류 발생: {str(e)}")
@@ -193,9 +209,168 @@ with tab2:
                                 
                                 if len(preview_list) > 50:
                                     st.text(f"... 외 {len(preview_list) - 50}개")
+                            
+                            # 처음으로 버튼
+                            st.button("🔄 처음으로", on_click=reset_tab2, use_container_width=True)
                 
                 except Exception as e:
                     st.error(f"❌ 오류 발생: {str(e)}")
+
+# ==================== 기능 3: 압축파일 자동 해제 ====================
+with tab3:
+    st.header("📦 폴더 내 모든 압축파일 자동 해제")
+    st.markdown("ZIP 파일을 업로드하면 내부의 모든 압축파일(.zip, .rar, .7z 등)을 해제하고 원본 압축파일을 제거합니다.")
+    
+    # 파일 업로드
+    uploaded_zip_3 = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab3")
+    
+    if uploaded_zip_3:
+        st.info("💡 압축파일 해제 옵션을 선택하고 시작 버튼을 눌러주세요")
+        
+        # 옵션
+        col_opt1, col_opt2 = st.columns(2)
+        with col_opt1:
+            keep_original = st.checkbox("원본 압축파일 보관", value=False)
+        with col_opt2:
+            nested_extract = st.checkbox("중첩된 압축파일도 해제", value=True)
+        
+        if st.button("🚀 압축파일 해제 시작", key="extract_btn", use_container_width=True):
+            try:
+                with st.spinner("압축파일을 해제하는 중..."):
+                    # 업로드된 ZIP 파일 읽기
+                    input_zip_3 = zipfile.ZipFile(uploaded_zip_3)
+                    all_files = input_zip_3.namelist()
+                    
+                    # 압축파일 확장자 리스트
+                    archive_extensions = {'.zip', '.rar', '.7z', '.tar', '.gz', '.bz2', '.xz'}
+                    
+                    # 모든 파일 추출하기
+                    extracted_files = {}
+                    archive_files = []
+                    
+                    for file_path in all_files:
+                        if file_path.endswith('/'):
+                            continue
+                        
+                        file_content = input_zip_3.read(file_path)
+                        file_name = file_path.split('/')[-1]
+                        file_ext = os.path.splitext(file_name)[1].lower()
+                        
+                        if file_ext in archive_extensions:
+                            archive_files.append((file_name, file_content, file_ext))
+                        else:
+                            extracted_files[file_name] = file_content
+                    
+                    # 압축파일 해제
+                    total_extracted = 0
+                    
+                    for archive_name, archive_content, archive_ext in archive_files:
+                        try:
+                            # ZIP 파일만 처리 (다른 형식은 바이너리로 저장)
+                            if archive_ext == '.zip':
+                                archive_buffer = io.BytesIO(archive_content)
+                                try:
+                                    extracted_zip = zipfile.ZipFile(archive_buffer)
+                                    for inner_file in extracted_zip.namelist():
+                                        if not inner_file.endswith('/'):
+                                            inner_content = extracted_zip.read(inner_file)
+                                            inner_file_name = inner_file.split('/')[-1]
+                                            
+                                            # 중복 처리
+                                            if inner_file_name in extracted_files:
+                                                base_name, ext = os.path.splitext(inner_file_name)
+                                                counter = 1
+                                                new_name = f"{base_name}_{counter}{ext}"
+                                                while new_name in extracted_files:
+                                                    counter += 1
+                                                    new_name = f"{base_name}_{counter}{ext}"
+                                                extracted_files[new_name] = inner_content
+                                            else:
+                                                extracted_files[inner_file_name] = inner_content
+                                            
+                                            total_extracted += 1
+                                            
+                                            # 중첩된 압축파일도 해제할지 확인
+                                            if nested_extract:
+                                                inner_ext = os.path.splitext(inner_file_name)[1].lower()
+                                                if inner_ext == '.zip':
+                                                    try:
+                                                        nested_buffer = io.BytesIO(inner_content)
+                                                        nested_zip = zipfile.ZipFile(nested_buffer)
+                                                        for nested_file in nested_zip.namelist():
+                                                            if not nested_file.endswith('/'):
+                                                                nested_content = nested_zip.read(nested_file)
+                                                                nested_file_name = nested_file.split('/')[-1]
+                                                                
+                                                                if nested_file_name in extracted_files:
+                                                                    base_name, ext = os.path.splitext(nested_file_name)
+                                                                    counter = 1
+                                                                    new_name = f"{base_name}_{counter}{ext}"
+                                                                    while new_name in extracted_files:
+                                                                        counter += 1
+                                                                        new_name = f"{base_name}_{counter}{ext}"
+                                                                    extracted_files[new_name] = nested_content
+                                                                else:
+                                                                    extracted_files[nested_file_name] = nested_content
+                                                                
+                                                                total_extracted += 1
+                                                    except:
+                                                        pass
+                                    
+                                    # 원본 압축파일 보관하지 않음 (기본값)
+                                    if not keep_original and archive_name in extracted_files:
+                                        del extracted_files[archive_name]
+                                
+                                except:
+                                    # 손상된 ZIP 파일이면 그냥 저장
+                                    if keep_original:
+                                        extracted_files[archive_name] = archive_content
+                            else:
+                                # ZIP이 아닌 다른 압축파일은 그냥 저장
+                                if keep_original:
+                                    extracted_files[archive_name] = archive_content
+                        except:
+                            if keep_original:
+                                extracted_files[archive_name] = archive_content
+                    
+                    # 원본 압축파일도 해제하지 않을 경우 제거
+                    if not keep_original:
+                        for archive_name, _, _ in archive_files:
+                            if archive_name in extracted_files:
+                                del extracted_files[archive_name]
+                    
+                    # 결과 ZIP 생성
+                    output_zip_buffer = io.BytesIO()
+                    
+                    with zipfile.ZipFile(output_zip_buffer, 'w', zipfile.ZIP_DEFLATED) as output_zip:
+                        for file_name, file_content in extracted_files.items():
+                            output_zip.writestr(file_name, file_content)
+                    
+                    output_zip_buffer.seek(0)
+                    
+                    st.success(f"✅ 압축파일 해제 완료! ({len(archive_files)}개 압축파일 해제, {total_extracted}개 파일 추출)")
+                    
+                    # 다운로드 버튼
+                    st.download_button(
+                        label="📥 처리된 파일 다운로드",
+                        data=output_zip_buffer.getvalue(),
+                        file_name=f"압축해제_{datetime.now().strftime('%Y%m%d_%H%M%S')}.zip",
+                        mime="application/zip",
+                        use_container_width=True
+                    )
+                    
+                    # 결과 미리보기
+                    with st.expander("📋 처리된 파일 목록"):
+                        for i, file_name in enumerate(sorted(extracted_files.keys())[:100], 1):
+                            st.text(f"{i}. {file_name}")
+                        if len(extracted_files) > 100:
+                            st.text(f"... 외 {len(extracted_files) - 100}개")
+                    
+                    # 처음으로 버튼
+                    st.button("🔄 처음으로", on_click=reset_tab3, use_container_width=True)
+            
+            except Exception as e:
+                st.error(f"❌ 오류 발생: {str(e)}")
 
 # 사이드바 - 사용 안내
 with st.sidebar:
@@ -213,6 +388,12 @@ with st.sidebar:
     3. 파일명 형식 선택
     4. '파일명 변경 시작' 클릭
     5. 압축 파일 다운로드
+    
+    ### 🎯 기능 3: 압축파일 자동 해제
+    1. ZIP 파일 업로드
+    2. 옵션 선택
+    3. '압축파일 해제 시작' 클릭
+    4. 처리된 파일 다운로드
     """)
     
     st.markdown("---")
