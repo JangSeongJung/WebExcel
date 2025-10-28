@@ -6,19 +6,6 @@ import os
 
 st.set_page_config(page_title="컴퓨터 정리의 기본", layout="wide", page_icon="📁")
 
-# 세션 상태 초기화 함수
-def reset_tab1():
-    st.session_state['uploader_tab1'] = None
-    st.rerun()
-
-def reset_tab2():
-    st.session_state['uploader_tab2'] = None
-    st.rerun()
-
-def reset_tab3():
-    st.session_state['uploader_tab3'] = None
-    st.rerun()
-
 st.title("📁 컴퓨터 정리의 기본")
 
 tab1, tab2, tab3 = st.tabs(["📂 모든 파일 한 곳에 모으기", "✏️ 파일명 일괄 수정", "📦 압축파일 자동 해제"])
@@ -84,7 +71,8 @@ with tab1:
                             st.text(f"... 외 {len(all_files) - 100}개")
                     
                     # 처음으로 버튼
-                    st.button("🔄 처음으로", on_click=reset_tab1, use_container_width=True)
+                    if st.button("🔄 처음으로", use_container_width=True, key="reset1"):
+                        st.rerun()
         
         except Exception as e:
             st.error(f"❌ 오류 발생: {str(e)}")
@@ -211,7 +199,8 @@ with tab2:
                                     st.text(f"... 외 {len(preview_list) - 50}개")
                             
                             # 처음으로 버튼
-                            st.button("🔄 처음으로", on_click=reset_tab2, use_container_width=True)
+                            if st.button("🔄 처음으로", use_container_width=True, key="reset2"):
+                                st.rerun()
                 
                 except Exception as e:
                     st.error(f"❌ 오류 발생: {str(e)}")
@@ -367,7 +356,8 @@ with tab3:
                             st.text(f"... 외 {len(extracted_files) - 100}개")
                     
                     # 처음으로 버튼
-                    st.button("🔄 처음으로", on_click=reset_tab3, use_container_width=True)
+                    if st.button("🔄 처음으로", use_container_width=True, key="reset3"):
+                        st.rerun()
             
             except Exception as e:
                 st.error(f"❌ 오류 발생: {str(e)}")
