@@ -7,7 +7,7 @@ import json
 
 st.set_page_config(page_title="컴퓨터 정리의 기본", layout="wide", page_icon="📁")
 
-# 폰트 크기 조정 및 고정 헤더 스타일
+# 폰트 크기 조정
 st.markdown("""
     <style>
         html, body, [class*="css"] {
@@ -23,45 +23,6 @@ st.markdown("""
         label { font-size: 18px !important; }
         .stMetric { font-size: 18px !important; }
         .stMetricDelta { font-size: 18px !important; }
-        
-        /* 고정 헤더 컨테이너 스타일 */
-        .fixed-header-container {
-            position: fixed;
-            top: 70px;
-            right: 20px;
-            z-index: 999;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        /* 방문자 카운트 스타일 */
-        .visitor-box {
-            background-color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            border: 1px solid #e0e0e0;
-            font-weight: 500;
-        }
-        
-        /* 의견남기기 버튼 스타일 */
-        .opinion-button {
-            background-color: #FF4B4B;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            border: 1px solid #FF4B4B;
-        }
-        
-        .opinion-button:hover {
-            background-color: #FF3333;
-        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -74,11 +35,9 @@ def init_visitor_count():
     else:
         today = datetime.now().date()
         if st.session_state['visitor_date'] != today:
-            # 새로운 날짜면 카운트 리셋
             st.session_state['visitor_date'] = today
             st.session_state['visitor_count'] = 1
         else:
-            # 같은 날이면 카운트 증가
             st.session_state['visitor_count'] += 1
 
 # 페이지 로드 시 방문자 카운팅
@@ -88,52 +47,24 @@ init_visitor_count()
 if 'show_panel' not in st.session_state:
     st.session_state['show_panel'] = False
 
-# 스페이서를 만들어서 버튼이 우측에 위치하도록
-col1, col2 = st.columns([6, 1])
-with col1:
-    # 방문자 정보는 여기에 표시 (왼쪽)
-    pass
-with col2:
-    # 버튼은 여기에 표시 (오른쪽)
-    if st.button("💬 의견", key="toggle_panel"):
-        st.session_state['show_panel'] = not st.session_state['show_panel']
-
-# CSS로 우측 상단 고정 영역 만들기
-st.markdown(f"""
-    <style>
-        /* 우측 상단 고정 영역 */
-        div[data-testid="column"]:has(button) {{
-            position: fixed !important;
-            top: 70px !important;
-            right: 20px !important;
-            z-index: 999 !important;
-            width: auto !important;
-        }}
-        
-        /* 고정 방문자 카운터 */
-        .fixed-visitor {{
-            position: fixed;
-            top: 70px;
-            right: 140px;
-            z-index: 999;
-            background-color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            border: 1px solid #e0e0e0;
-            font-weight: 500;
-        }}
-    </style>
-    
-    <div class="fixed-visitor">
-        👥 오늘 방문자: <strong>{st.session_state['visitor_count']}</strong>
-    </div>
-""", unsafe_allow_html=True)
+if 'posts' not in st.session_state:
+    st.session_state['posts'] = []
 
 st.title("📁 컴퓨터 정리의 기본")
 
-# 왼쪽 사이드바 - 사용 안내
+# 왼쪽 사이드바
 with st.sidebar:
+    # 방문자 수와 의견남기기 버튼
+    st.markdown("---")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric("👥 방문자", st.session_state['visitor_count'])
+    with col2:
+        if st.button("💬 의견", use_container_width=True):
+            st.session_state['show_panel'] = not st.session_state['show_panel']
+    
+    st.markdown("---")
+    
     st.header("📖 사용 방법")
     
     st.markdown("""
@@ -167,6 +98,57 @@ with st.sidebar:
     - 다운로드한 ZIP 파일을 원하는 위치에서 압축 해제하세요
     """)
 
+# 의견남기기 패널
+if st.session_state['show_panel']:
+    with st.expander("💬 의견남기기", expanded=True):
+        st.subheader("✍️ 의견 작성")
+        author_name = st.text_input("이름", placeholder="이름을 입력하세요", key="panel_name")
+        author_email = st.text_input("이메일 (선택)", placeholder="이메일을 입력하세요", key="panel_email")
+        
+        post_content = st.text_area("의견", placeholder="수정 의견이나 개선사항을 작성해주세요", height=100, key="panel_content")
+        
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            if st.button("📤 의견 제출", use_container_width=True, key="panel_submit"):
+                if not author_name or not post_content:
+                    st.error("❌ 이름과 의견을 입력해주세요")
+                else:
+                    new_post = {
+                        'name': author_name,
+                        'email': author_email if author_email else "비공개",
+                        'content': post_content,
+                        'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                    st.session_state['posts'].insert(0, new_post)
+                    st.success("✅ 의견이 등록되었습니다!")
+                    st.rerun()
+        with col2:
+            if st.button("❌ 닫기", use_container_width=True):
+                st.session_state['show_panel'] = False
+                st.rerun()
+        
+        # 게시판 목록
+        st.markdown("---")
+        st.subheader("📋 등록된 의견")
+        
+        if len(st.session_state['posts']) == 0:
+            st.info("📝 아직 의견이 없습니다.")
+        else:
+            for idx, post in enumerate(st.session_state['posts'][:10]):
+                with st.container(border=True):
+                    col1, col2 = st.columns([5, 1])
+                    with col1:
+                        st.write(f"**{post['name']}**")
+                        st.caption(f"📅 {post['date']}")
+                        st.write(post['content'][:100] + "..." if len(post['content']) > 100 else post['content'])
+                    with col2:
+                        if st.button("🗑️", key=f"panel_delete_{idx}", help="삭제"):
+                            st.session_state['posts'].pop(idx)
+                            st.rerun()
+            
+            if len(st.session_state['posts']) > 10:
+                st.info(f"... 외 {len(st.session_state['posts']) - 10}개")
+
 tab1, tab2, tab3 = st.tabs(["📂 모든 파일 한 곳에 모으기", "✏️ 파일명 일괄 수정", "📦 압축파일 자동 해제"])
 
 # ==================== 기능 1: 파일 모으기 ====================
@@ -174,7 +156,7 @@ with tab1:
     st.header("📂 폴더 내 모든 파일을 한 폴더에 놓기")
     st.markdown("ZIP 파일을 업로드하면 모든 파일을 한 곳에 모아서 다시 압축해드립니다.")
     
-    # 파일 업로드 버튼의 가로폭을 2배로 (3칸 중 2칸 사용)
+    # 파일 업로드 버튼의 가로폭을 2배로
     col_upload, col_empty = st.columns([2, 1])
     with col_upload:
         uploaded_zip = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab1")
@@ -244,7 +226,7 @@ with tab2:
     st.header("✏️ 폴더 내 모든 파일들의 제목 수정")
     st.markdown("ZIP 파일을 업로드한 후 옵션을 선택하고 실행하세요")
     
-    # 파일 업로드 버튼의 가로폭을 2배로 (3칸 중 2칸 사용)
+    # 파일 업로드 버튼의 가로폭을 2배로
     col_upload, col_empty = st.columns([2, 1])
     with col_upload:
         uploaded_zip_2 = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab2")
@@ -307,7 +289,6 @@ with tab2:
                             for file_name in filtered_files:
                                 file_content = input_zip_2.read(file_name)
                                 file_size = len(file_content)
-                                # 수정 시간은 ZIP에서 직접 가져오기
                                 file_info.append({
                                     'name': file_name,
                                     'content': file_content,
@@ -374,7 +355,7 @@ with tab3:
     st.header("📦 폴더 내 모든 압축파일 자동 해제")
     st.markdown("ZIP 파일을 업로드하면 내부의 모든 압축파일(.zip, .rar, .7z 등)을 해제하고 원본 압축파일을 제거합니다.")
     
-    # 파일 업로드 버튼의 가로폭을 2배로 (3칸 중 2칸 사용)
+    # 파일 업로드 버튼의 가로폭을 2배로
     col_upload, col_empty = st.columns([2, 1])
     with col_upload:
         uploaded_zip_3 = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab3")
@@ -421,7 +402,7 @@ with tab3:
                     
                     for archive_name, archive_content, archive_ext in archive_files:
                         try:
-                            # ZIP 파일만 처리 (다른 형식은 바이너리로 저장)
+                            # ZIP 파일만 처리
                             if archive_ext == '.zip':
                                 archive_buffer = io.BytesIO(archive_content)
                                 try:
@@ -445,7 +426,7 @@ with tab3:
                                             
                                             total_extracted += 1
                                             
-                                            # 중첩된 압축파일도 해제할지 확인
+                                            # 중첩된 압축파일도 해제
                                             if nested_extract:
                                                 inner_ext = os.path.splitext(inner_file_name)[1].lower()
                                                 if inner_ext == '.zip':
@@ -472,23 +453,20 @@ with tab3:
                                                     except:
                                                         pass
                                     
-                                    # 원본 압축파일 보관하지 않음 (기본값)
                                     if not keep_original and archive_name in extracted_files:
                                         del extracted_files[archive_name]
                                 
                                 except:
-                                    # 손상된 ZIP 파일이면 그냥 저장
                                     if keep_original:
                                         extracted_files[archive_name] = archive_content
                             else:
-                                # ZIP이 아닌 다른 압축파일은 그냥 저장
                                 if keep_original:
                                     extracted_files[archive_name] = archive_content
                         except:
                             if keep_original:
                                 extracted_files[archive_name] = archive_content
                     
-                    # 원본 압축파일도 해제하지 않을 경우 제거
+                    # 원본 압축파일 제거
                     if not keep_original:
                         for archive_name, _, _ in archive_files:
                             if archive_name in extracted_files:
@@ -527,70 +505,3 @@ with tab3:
             
             except Exception as e:
                 st.error(f"❌ 오류 발생: {str(e)}")
-
-# ==================== 의견남기기 패널 ====================
-st.markdown("""
-<style>
-    .right-panel {
-        position: fixed;
-        right: 20px;
-        top: 150px;
-        width: 350px;
-        max-height: 80vh;
-        overflow-y: auto;
-        background-color: #f0f2f6;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        border: 1px solid #ddd;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# 게시판 데이터 초기화
-if 'posts' not in st.session_state:
-    st.session_state['posts'] = []
-
-# 의견남기기 패널
-if st.session_state['show_panel']:
-    with st.expander("💬 의견남기기", expanded=True):
-        st.subheader("✍️ 의견 작성")
-        author_name = st.text_input("이름", placeholder="이름을 입력하세요", key="panel_name")
-        author_email = st.text_input("이메일 (선택)", placeholder="이메일을 입력하세요", key="panel_email")
-        
-        post_content = st.text_area("의견", placeholder="수정 의견이나 개선사항을 작성해주세요", height=100, key="panel_content")
-        
-        if st.button("📤 의견 제출", use_container_width=True, key="panel_submit"):
-            if not author_name or not post_content:
-                st.error("❌ 이름과 의견을 입력해주세요")
-            else:
-                new_post = {
-                    'name': author_name,
-                    'email': author_email if author_email else "비공개",
-                    'content': post_content,
-                    'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                }
-                st.session_state['posts'].insert(0, new_post)
-                st.success("✅ 의견이 등록되었습니다!")
-                st.rerun()
-        
-        # 게시판 목록
-        st.markdown("---")
-        st.subheader("📋 등록된 의견")
-        
-        if len(st.session_state['posts']) == 0:
-            st.info("📝 아직 의견이 없습니다.")
-        else:
-            for idx, post in enumerate(st.session_state['posts'][:5]):  # 최근 5개만 표시
-                with st.container(border=True):
-                    st.write(f"**{post['name']}**")
-                    st.write(f"📅 {post['date']}")
-                    st.caption(post['content'][:50] + "..." if len(post['content']) > 50 else post['content'])
-                    
-                    if st.button("🗑️", key=f"panel_delete_{idx}", help="삭제"):
-                        st.session_state['posts'].pop(idx)
-                        st.rerun()
-            
-            if len(st.session_state['posts']) > 5:
-                st.info(f"... 외 {len(st.session_state['posts']) - 5}개")
