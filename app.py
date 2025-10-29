@@ -7,6 +7,25 @@ import json
 
 st.set_page_config(page_title="컴퓨터 정리의 기본", layout="wide", page_icon="📁")
 
+# 폰트 크기 50% 줄이기
+st.markdown("""
+    <style>
+        html, body, [class*="css"] {
+            font-size: 8px !important;
+        }
+        h1 { font-size: 16px !important; }
+        h2 { font-size: 14px !important; }
+        h3 { font-size: 12px !important; }
+        p, span, div { font-size: 8px !important; }
+        button { font-size: 8px !important; }
+        input { font-size: 8px !important; }
+        textarea { font-size: 8px !important; }
+        label { font-size: 8px !important; }
+        .stMetric { font-size: 8px !important; }
+        .stMetricDelta { font-size: 8px !important; }
+    </style>
+""", unsafe_allow_html=True)
+
 # 방문자 카운팅 기능
 def init_visitor_count():
     """방문자 수 초기화"""
@@ -27,8 +46,16 @@ def init_visitor_count():
 init_visitor_count()
 
 # 우측 상단에 방문자 정보 표시
-col1, col2 = st.columns([3, 1])
+col1, col2, col3 = st.columns([2, 1, 1])
 with col2:
+    # 의견남기기 토글 버튼
+    if 'show_panel' not in st.session_state:
+        st.session_state['show_panel'] = False
+    
+    if st.button("💬 의견남기기", key="toggle_panel_top"):
+        st.session_state['show_panel'] = not st.session_state['show_panel']
+
+with col3:
     st.metric(
         label="👥 오늘 방문자",
         value=st.session_state['visitor_count'],
@@ -79,7 +106,9 @@ with tab1:
     st.header("📂 폴더 내 모든 파일을 한 폴더에 놓기")
     st.markdown("ZIP 파일을 업로드하면 모든 파일을 한 곳에 모아서 다시 압축해드립니다.")
     
-    uploaded_zip = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab1")
+    col_upload, col_empty = st.columns([1, 2])
+    with col_upload:
+        uploaded_zip = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab1")
     
     if uploaded_zip and st.button("🚀 파일 모으기 시작", key="collect_btn", use_container_width=True):
         try:
@@ -147,7 +176,9 @@ with tab2:
     st.markdown("ZIP 파일을 업로드한 후 옵션을 선택하고 실행하세요")
     
     # 파일 업로드
-    uploaded_zip_2 = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab2")
+    col_upload, col_empty = st.columns([1, 2])
+    with col_upload:
+        uploaded_zip_2 = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab2")
     
     if uploaded_zip_2:
         # ZIP 파일 읽기
@@ -275,7 +306,9 @@ with tab3:
     st.markdown("ZIP 파일을 업로드하면 내부의 모든 압축파일(.zip, .rar, .7z 등)을 해제하고 원본 압축파일을 제거합니다.")
     
     # 파일 업로드
-    uploaded_zip_3 = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab3")
+    col_upload, col_empty = st.columns([1, 2])
+    with col_upload:
+        uploaded_zip_3 = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab3")
     
     if uploaded_zip_3:
         st.info("💡 압축파일 해제 옵션을 선택하고 시작 버튼을 눌러주세요")
