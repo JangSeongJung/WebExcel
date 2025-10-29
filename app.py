@@ -7,22 +7,22 @@ import json
 
 st.set_page_config(page_title="컴퓨터 정리의 기본", layout="wide", page_icon="📁")
 
-# 폰트 크기 50% 줄이기
+# 폰트 크기 150% 늘리기
 st.markdown("""
     <style>
         html, body, [class*="css"] {
-            font-size: 8px !important;
+            font-size: 24px !important;
         }
-        h1 { font-size: 16px !important; }
-        h2 { font-size: 14px !important; }
-        h3 { font-size: 12px !important; }
-        p, span, div { font-size: 8px !important; }
-        button { font-size: 8px !important; }
-        input { font-size: 8px !important; }
-        textarea { font-size: 8px !important; }
-        label { font-size: 8px !important; }
-        .stMetric { font-size: 8px !important; }
-        .stMetricDelta { font-size: 8px !important; }
+        h1 { font-size: 48px !important; }
+        h2 { font-size: 42px !important; }
+        h3 { font-size: 36px !important; }
+        p, span, div { font-size: 24px !important; }
+        button { font-size: 24px !important; }
+        input { font-size: 24px !important; }
+        textarea { font-size: 24px !important; }
+        label { font-size: 24px !important; }
+        .stMetric { font-size: 24px !important; }
+        .stMetricDelta { font-size: 24px !important; }
     </style>
 """, unsafe_allow_html=True)
 
