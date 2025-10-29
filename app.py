@@ -185,29 +185,39 @@ with st.sidebar:
     # 사용 방법 섹션 - 작은 폰트로 표시
     st.markdown("""
         <style>
-        .small-font-section h2 {
+        /* 사이드바 내의 사용방법 섹션만 작게 */
+        section[data-testid="stSidebar"] .small-font-section h2,
+        section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] h2 {
             font-size: 9px !important;
-            line-height: 1.3 !important;
+            line-height: 1.2 !important;
         }
-        .small-font-section h3 {
-            font-size: 6px !important;
-            line-height: 1.3 !important;
+        section[data-testid="stSidebar"] .small-font-section h3,
+        section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] h3 {
+            font-size: 7px !important;
+            line-height: 1.2 !important;
             font-weight: bold !important;
         }
-        .small-font-section p, .small-font-section li, .small-font-section span, .small-font-section div {
-            font-size: 6px !important;
-            line-height: 1.3 !important;
+        section[data-testid="stSidebar"] .small-font-section p,
+        section[data-testid="stSidebar"] .small-font-section li,
+        section[data-testid="stSidebar"] .small-font-section span,
+        section[data-testid="stSidebar"] .small-font-section div,
+        section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] p,
+        section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] li {
+            font-size: 7px !important;
+            line-height: 1.2 !important;
         }
-        .small-font-section ul, .small-font-section ol {
-            font-size: 6px !important;
-            padding-left: 1.2rem !important;
+        section[data-testid="stSidebar"] .small-font-section ul,
+        section[data-testid="stSidebar"] .small-font-section ol {
+            font-size: 7px !important;
+            padding-left: 1rem !important;
         }
-        .small-font-section .stMarkdown {
-            font-size: 6px !important;
+        section[data-testid="stSidebar"] .small-font-section .stMarkdown * {
+            font-size: 7px !important;
         }
-        .small-font-section .stAlert {
-            font-size: 6px !important;
-            padding: 0.3rem !important;
+        section[data-testid="stSidebar"] .small-font-section .stAlert,
+        section[data-testid="stSidebar"] .small-font-section .stAlert * {
+            font-size: 7px !important;
+            padding: 0.2rem !important;
         }
         </style>
     """, unsafe_allow_html=True)
