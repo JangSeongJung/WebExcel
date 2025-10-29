@@ -24,42 +24,43 @@ st.markdown("""
         .stMetric { font-size: 18px !important; }
         .stMetricDelta { font-size: 18px !important; }
         
-        /* 고정 헤더 스타일 */
-        .fixed-header {
+        /* 고정 헤더 컨테이너 스타일 */
+        .fixed-header-container {
             position: fixed;
             top: 70px;
             right: 20px;
             z-index: 999;
-            background-color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
             display: flex;
-            gap: 15px;
+            gap: 10px;
             align-items: center;
-            border: 1px solid #e0e0e0;
         }
         
-        .fixed-header-button {
+        /* 방문자 카운트 스타일 */
+        .visitor-box {
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border: 1px solid #e0e0e0;
+            font-weight: 500;
+        }
+        
+        /* 의견남기기 버튼 스타일 */
+        .opinion-button {
             background-color: #FF4B4B;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 500;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border: 1px solid #FF4B4B;
         }
         
-        .fixed-header-button:hover {
+        .opinion-button:hover {
             background-color: #FF3333;
-        }
-        
-        .visitor-count {
-            background-color: #f0f2f6;
-            padding: 8px 16px;
-            border-radius: 5px;
-            font-weight: 500;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -83,23 +84,51 @@ def init_visitor_count():
 # 페이지 로드 시 방문자 카운팅
 init_visitor_count()
 
-# 고정된 헤더 (HTML로 생성)
+# 고정된 헤더 초기화
 if 'show_panel' not in st.session_state:
     st.session_state['show_panel'] = False
 
+# 스페이서를 만들어서 버튼이 우측에 위치하도록
+col1, col2 = st.columns([6, 1])
+with col1:
+    # 방문자 정보는 여기에 표시 (왼쪽)
+    pass
+with col2:
+    # 버튼은 여기에 표시 (오른쪽)
+    if st.button("💬 의견", key="toggle_panel"):
+        st.session_state['show_panel'] = not st.session_state['show_panel']
+
+# CSS로 우측 상단 고정 영역 만들기
 st.markdown(f"""
-    <div class="fixed-header">
-        <div class="visitor-count">
-            👥 오늘 방문자: <strong>{st.session_state['visitor_count']}</strong>
-        </div>
+    <style>
+        /* 우측 상단 고정 영역 */
+        div[data-testid="column"]:has(button) {{
+            position: fixed !important;
+            top: 70px !important;
+            right: 20px !important;
+            z-index: 999 !important;
+            width: auto !important;
+        }}
+        
+        /* 고정 방문자 카운터 */
+        .fixed-visitor {{
+            position: fixed;
+            top: 70px;
+            right: 140px;
+            z-index: 999;
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border: 1px solid #e0e0e0;
+            font-weight: 500;
+        }}
+    </style>
+    
+    <div class="fixed-visitor">
+        👥 오늘 방문자: <strong>{st.session_state['visitor_count']}</strong>
     </div>
 """, unsafe_allow_html=True)
-
-# 의견남기기 버튼 (스크롤 가능한 위치에 배치)
-col1, col2 = st.columns([5, 1])
-with col2:
-    if st.button("💬 의견남기기", key="toggle_panel_top"):
-        st.session_state['show_panel'] = not st.session_state['show_panel']
 
 st.title("📁 컴퓨터 정리의 기본")
 
