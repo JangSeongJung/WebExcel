@@ -23,6 +23,26 @@ st.markdown("""
         label { font-size: 18px !important; }
         .stMetric { font-size: 18px !important; }
         .stMetricDelta { font-size: 18px !important; }
+        
+        /* 사이드바 항목 간격 줄이기 */
+        section[data-testid="stSidebar"] > div {
+            padding-top: 1rem;
+        }
+        section[data-testid="stSidebar"] .block-container {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        section[data-testid="stSidebar"] .element-container {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 메인 영역 항목 간격 줄이기 */
+        .main .block-container {
+            padding-top: 2rem;
+        }
+        .element-container {
+            margin-bottom: 0.5rem;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -54,9 +74,18 @@ st.title("📁 컴퓨터 정리의 기본")
 
 # 왼쪽 사이드바
 with st.sidebar:
+    # 홈으로 버튼
+    st.markdown("""
+        <a href="https://webexcel-wqqus7hhrxvn59tn3f6knp.streamlit.app/" target="_self" style="text-decoration: none;">
+            <button style="width: 100%; padding: 10px; background-color: #FF4B4B; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: 500; margin-bottom: 5px;">
+                🏠 홈으로
+            </button>
+        </a>
+    """, unsafe_allow_html=True)
+    
     # 방문자 수 (첫 번째 줄)
     st.markdown(f"""
-        <div style="background-color: #f0f2f6; padding: 12px 20px; border-radius: 8px; text-align: center; margin-bottom: 10px;">
+        <div style="background-color: #f0f2f6; padding: 10px 20px; border-radius: 8px; text-align: center; margin-bottom: 5px; margin-top: 5px;">
             <span style="font-size: 16px;">👥 오늘 방문자: <strong style="font-size: 22px;">{st.session_state['visitor_count']}</strong></span>
         </div>
     """, unsafe_allow_html=True)
