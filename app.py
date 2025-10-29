@@ -13,75 +13,121 @@ st.markdown("""
         html, body, [class*="css"] {
             font-size: 18px !important;
         }
-        h1 { font-size: 24px !important; }
-        h2 { font-size: 21px !important; margin-top: 0.5rem !important; margin-bottom: 0.5rem !important; }
-        h3 { font-size: 18px !important; margin-top: 0.3rem !important; margin-bottom: 0.3rem !important; }
-        p, span, div { font-size: 18px !important; }
-        button { font-size: 18px !important; }
+        h1 { font-size: 24px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
+        h2 { font-size: 21px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
+        h3 { font-size: 18px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
+        p, span, div { font-size: 18px !important; margin-top: 0 !important; margin-bottom: 0 !important; }
+        button { font-size: 18px !important; margin: 0 !important; }
         input { font-size: 18px !important; }
         textarea { font-size: 18px !important; }
         label { font-size: 18px !important; }
         .stMetric { font-size: 18px !important; }
         .stMetricDelta { font-size: 18px !important; }
         
-        /* 사이드바 항목 간격 최소화 */
+        /* 사이드바 항목 간격 거의 0으로 */
         section[data-testid="stSidebar"] > div {
-            padding-top: 0.5rem;
+            padding-top: 0.2rem;
+            padding-bottom: 0.2rem;
         }
         section[data-testid="stSidebar"] .block-container {
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
+            padding-top: 0.2rem !important;
+            padding-bottom: 0.2rem !important;
         }
         section[data-testid="stSidebar"] .element-container {
-            margin-bottom: 0.2rem !important;
+            margin-bottom: 0 !important;
             margin-top: 0 !important;
+            padding-bottom: 0 !important;
+            padding-top: 0 !important;
         }
         section[data-testid="stSidebar"] hr {
-            margin-top: 0.5rem !important;
-            margin-bottom: 0.5rem !important;
+            margin-top: 0.2rem !important;
+            margin-bottom: 0.2rem !important;
         }
         section[data-testid="stSidebar"] h2 {
-            margin-top: 0.3rem !important;
-            margin-bottom: 0.5rem !important;
+            margin-top: 0 !important;
+            margin-bottom: 0.2rem !important;
+            padding-top: 0 !important;
+        }
+        section[data-testid="stSidebar"] h3 {
+            margin-top: 0 !important;
+            margin-bottom: 0.1rem !important;
+            padding-top: 0 !important;
+        }
+        section[data-testid="stSidebar"] ul, 
+        section[data-testid="stSidebar"] ol {
+            margin-top: 0 !important;
+            margin-bottom: 0.2rem !important;
+            padding-top: 0 !important;
+        }
+        section[data-testid="stSidebar"] li {
+            margin-bottom: 0.1rem !important;
         }
         
         /* 메인 영역 항목 간격 최소화 */
         .main .block-container {
-            padding-top: 1rem;
+            padding-top: 0.5rem;
         }
         .element-container {
-            margin-bottom: 0.3rem !important;
+            margin-bottom: 0 !important;
             margin-top: 0 !important;
+            padding-bottom: 0 !important;
+            padding-top: 0 !important;
         }
         
         /* 탭 간격 줄이기 */
         .stTabs [data-baseweb="tab-list"] {
-            gap: 0.5rem;
+            gap: 0.2rem;
+            margin-bottom: 0.3rem !important;
         }
         
-        /* 파일 업로더 상단 간격 줄이기 */
+        /* 파일 업로더 상단 간격 제거 */
         [data-testid="stFileUploader"] {
-            margin-top: 0.3rem !important;
+            margin-top: 0 !important;
+            margin-bottom: 0.2rem !important;
+            padding-top: 0 !important;
         }
         
         /* 텍스트와 헤더 간격 최소화 */
         .main h1 {
-            margin-bottom: 0.5rem !important;
+            margin-bottom: 0.2rem !important;
+            margin-top: 0 !important;
         }
         .main h2 {
-            margin-top: 0.5rem !important;
-            margin-bottom: 0.3rem !important;
-        }
-        
-        /* 마크다운 요소 간격 줄이기 */
-        .stMarkdown {
-            margin-bottom: 0.2rem !important;
-        }
-        
-        /* 버튼 간격 줄이기 */
-        .stButton {
             margin-top: 0.2rem !important;
             margin-bottom: 0.2rem !important;
+        }
+        
+        /* 마크다운 요소 간격 제거 */
+        .stMarkdown {
+            margin-bottom: 0 !important;
+            margin-top: 0 !important;
+            padding-bottom: 0 !important;
+            padding-top: 0 !important;
+        }
+        .stMarkdown p {
+            margin-bottom: 0.1rem !important;
+            margin-top: 0 !important;
+        }
+        
+        /* 버튼 간격 제거 */
+        .stButton {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+        .stButton > button {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+        
+        /* 컬럼 간격 줄이기 */
+        [data-testid="column"] {
+            padding: 0 0.2rem !important;
+        }
+        
+        /* 모든 div 간격 최소화 */
+        div.row-widget {
+            margin-bottom: 0 !important;
+            margin-top: 0 !important;
         }
     </style>
 """, unsafe_allow_html=True)
