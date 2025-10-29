@@ -182,6 +182,22 @@ with st.sidebar:
     
     st.markdown("---")
     
+    # 사용 방법 섹션 - 작은 폰트로 표시
+    st.markdown("""
+        <style>
+        .small-font-section h2 {
+            font-size: 10.5px !important;
+        }
+        .small-font-section h3 {
+            font-size: 9px !important;
+        }
+        .small-font-section p, .small-font-section li, .small-font-section span {
+            font-size: 9px !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    
+    st.markdown('<div class="small-font-section">', unsafe_allow_html=True)
     st.header("📖 사용 방법")
     
     st.markdown("""
@@ -214,6 +230,7 @@ with st.sidebar:
     - 모든 작업은 메모리에서 이루어집니다
     - 다운로드한 ZIP 파일을 원하는 위치에서 압축 해제하세요
     """)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # 의견남기기 패널
 if st.session_state['show_panel']:
