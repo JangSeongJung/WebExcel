@@ -23,27 +23,6 @@ st.markdown("""
         label { font-size: 18px !important; }
         .stMetric { font-size: 18px !important; }
         .stMetricDelta { font-size: 18px !important; }
-        
-        /* 고정 헤더 영역 - 첫 번째와 두 번째 블록 모두 고정 */
-        div[data-testid="stHorizontalBlock"]:nth-of-type(1),
-        div[data-testid="stHorizontalBlock"]:nth-of-type(2) {
-            position: sticky;
-            background-color: white;
-            z-index: 999;
-            padding: 8px 0;
-        }
-        
-        div[data-testid="stHorizontalBlock"]:nth-of-type(1) {
-            top: 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        div[data-testid="stHorizontalBlock"]:nth-of-type(2) {
-            top: 60px;
-            border-bottom: 2px solid #e0e0e0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -71,29 +50,23 @@ if 'show_panel' not in st.session_state:
 if 'posts' not in st.session_state:
     st.session_state['posts'] = []
 
-# 우측 상단에 방문자 정보 (첫 번째 줄)
-col1, col2 = st.columns([5, 1])
-with col1:
-    st.empty()  # 빈 공간
-with col2:
-    st.markdown(f"""
-        <div style="background-color: #f0f2f6; padding: 10px 20px; border-radius: 8px; text-align: center;">
-            <span style="font-size: 16px;">👥 오늘 방문자: <strong style="font-size: 20px;">{st.session_state['visitor_count']}</strong></span>
-        </div>
-    """, unsafe_allow_html=True)
-
-# 의견게시판 버튼 (두 번째 줄)
-col1, col2 = st.columns([5, 1])
-with col1:
-    st.empty()  # 빈 공간
-with col2:
-    if st.button("💬 의견게시판", key="toggle_panel", use_container_width=True):
-        st.session_state['show_panel'] = not st.session_state['show_panel']
-
 st.title("📁 컴퓨터 정리의 기본")
 
-# 왼쪽 사이드바 - 사용 안내
+# 왼쪽 사이드바
 with st.sidebar:
+    # 방문자 수 (첫 번째 줄)
+    st.markdown(f"""
+        <div style="background-color: #f0f2f6; padding: 12px 20px; border-radius: 8px; text-align: center; margin-bottom: 10px;">
+            <span style="font-size: 16px;">👥 오늘 방문자: <strong style="font-size: 22px;">{st.session_state['visitor_count']}</strong></span>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # 의견게시판 버튼 (두 번째 줄)
+    if st.button("💬 의견게시판", use_container_width=True, key="sidebar_toggle"):
+        st.session_state['show_panel'] = not st.session_state['show_panel']
+    
+    st.markdown("---")
+    
     st.header("📖 사용 방법")
     
     st.markdown("""
