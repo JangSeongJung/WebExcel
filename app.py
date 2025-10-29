@@ -14,8 +14,8 @@ st.markdown("""
             font-size: 18px !important;
         }
         h1 { font-size: 24px !important; }
-        h2 { font-size: 21px !important; }
-        h3 { font-size: 18px !important; }
+        h2 { font-size: 21px !important; margin-top: 0.5rem !important; margin-bottom: 0.5rem !important; }
+        h3 { font-size: 18px !important; margin-top: 0.3rem !important; margin-bottom: 0.3rem !important; }
         p, span, div { font-size: 18px !important; }
         button { font-size: 18px !important; }
         input { font-size: 18px !important; }
@@ -24,24 +24,64 @@ st.markdown("""
         .stMetric { font-size: 18px !important; }
         .stMetricDelta { font-size: 18px !important; }
         
-        /* 사이드바 항목 간격 줄이기 */
+        /* 사이드바 항목 간격 최소화 */
         section[data-testid="stSidebar"] > div {
-            padding-top: 1rem;
+            padding-top: 0.5rem;
         }
         section[data-testid="stSidebar"] .block-container {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
         }
         section[data-testid="stSidebar"] .element-container {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.2rem !important;
+            margin-top: 0 !important;
+        }
+        section[data-testid="stSidebar"] hr {
+            margin-top: 0.5rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+        section[data-testid="stSidebar"] h2 {
+            margin-top: 0.3rem !important;
+            margin-bottom: 0.5rem !important;
         }
         
-        /* 메인 영역 항목 간격 줄이기 */
+        /* 메인 영역 항목 간격 최소화 */
         .main .block-container {
-            padding-top: 2rem;
+            padding-top: 1rem;
         }
         .element-container {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem !important;
+            margin-top: 0 !important;
+        }
+        
+        /* 탭 간격 줄이기 */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 0.5rem;
+        }
+        
+        /* 파일 업로더 상단 간격 줄이기 */
+        [data-testid="stFileUploader"] {
+            margin-top: 0.3rem !important;
+        }
+        
+        /* 텍스트와 헤더 간격 최소화 */
+        .main h1 {
+            margin-bottom: 0.5rem !important;
+        }
+        .main h2 {
+            margin-top: 0.5rem !important;
+            margin-bottom: 0.3rem !important;
+        }
+        
+        /* 마크다운 요소 간격 줄이기 */
+        .stMarkdown {
+            margin-bottom: 0.2rem !important;
+        }
+        
+        /* 버튼 간격 줄이기 */
+        .stButton {
+            margin-top: 0.2rem !important;
+            margin-bottom: 0.2rem !important;
         }
     </style>
 """, unsafe_allow_html=True)
