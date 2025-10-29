@@ -540,4 +540,5 @@ with st.container():
                             st.rerun()
                 
                 if len(st.session_state['posts']) > 5:
+
                     st.info(f"... 외 {len(st.session_state['posts']) - 5}개")
