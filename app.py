@@ -11,18 +11,18 @@ st.set_page_config(page_title="컴퓨터 정리의 기본", layout="wide", page_
 st.markdown("""
     <style>
         html, body, [class*="css"] {
-            font-size: 12px !important;
+            font-size: 18px !important;
         }
         h1 { font-size: 24px !important; }
         h2 { font-size: 21px !important; }
         h3 { font-size: 18px !important; }
-        p, span, div { font-size: 12px !important; }
-        button { font-size: 12px !important; }
-        input { font-size: 12px !important; }
-        textarea { font-size: 12px !important; }
-        label { font-size: 12px !important; }
-        .stMetric { font-size: 12px !important; }
-        .stMetricDelta { font-size: 12px !important; }
+        p, span, div { font-size: 18px !important; }
+        button { font-size: 18px !important; }
+        input { font-size: 18px !important; }
+        textarea { font-size: 18px !important; }
+        label { font-size: 18px !important; }
+        .stMetric { font-size: 18px !important; }
+        .stMetricDelta { font-size: 18px !important; }
     </style>
 """, unsafe_allow_html=True)
 
