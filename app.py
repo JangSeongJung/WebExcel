@@ -186,13 +186,28 @@ with st.sidebar:
     st.markdown("""
         <style>
         .small-font-section h2 {
-            font-size: 10.5px !important;
+            font-size: 11px !important;
+            line-height: 1.3 !important;
         }
         .small-font-section h3 {
             font-size: 9px !important;
+            line-height: 1.3 !important;
+            font-weight: bold !important;
         }
-        .small-font-section p, .small-font-section li, .small-font-section span {
+        .small-font-section p, .small-font-section li, .small-font-section span, .small-font-section div {
             font-size: 9px !important;
+            line-height: 1.3 !important;
+        }
+        .small-font-section ul, .small-font-section ol {
+            font-size: 9px !important;
+            padding-left: 1.2rem !important;
+        }
+        .small-font-section .stMarkdown {
+            font-size: 9px !important;
+        }
+        .small-font-section .stAlert {
+            font-size: 9px !important;
+            padding: 0.3rem !important;
         }
         </style>
     """, unsafe_allow_html=True)
