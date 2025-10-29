@@ -7,7 +7,7 @@ import json
 
 st.set_page_config(page_title="컴퓨터 정리의 기본", layout="wide", page_icon="📁")
 
-# 폰트 크기 조정
+# 폰트 크기 조정 및 고정 헤더 스타일
 st.markdown("""
     <style>
         html, body, [class*="css"] {
@@ -23,6 +23,27 @@ st.markdown("""
         label { font-size: 18px !important; }
         .stMetric { font-size: 18px !important; }
         .stMetricDelta { font-size: 18px !important; }
+        
+        /* 고정 헤더 영역 - 첫 번째와 두 번째 블록 모두 고정 */
+        div[data-testid="stHorizontalBlock"]:nth-of-type(1),
+        div[data-testid="stHorizontalBlock"]:nth-of-type(2) {
+            position: sticky;
+            background-color: white;
+            z-index: 999;
+            padding: 8px 0;
+        }
+        
+        div[data-testid="stHorizontalBlock"]:nth-of-type(1) {
+            top: 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        div[data-testid="stHorizontalBlock"]:nth-of-type(2) {
+            top: 60px;
+            border-bottom: 2px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -50,21 +71,29 @@ if 'show_panel' not in st.session_state:
 if 'posts' not in st.session_state:
     st.session_state['posts'] = []
 
+# 우측 상단에 방문자 정보 (첫 번째 줄)
+col1, col2 = st.columns([5, 1])
+with col1:
+    st.empty()  # 빈 공간
+with col2:
+    st.markdown(f"""
+        <div style="background-color: #f0f2f6; padding: 10px 20px; border-radius: 8px; text-align: center;">
+            <span style="font-size: 16px;">👥 오늘 방문자: <strong style="font-size: 20px;">{st.session_state['visitor_count']}</strong></span>
+        </div>
+    """, unsafe_allow_html=True)
+
+# 의견게시판 버튼 (두 번째 줄)
+col1, col2 = st.columns([5, 1])
+with col1:
+    st.empty()  # 빈 공간
+with col2:
+    if st.button("💬 의견게시판", key="toggle_panel", use_container_width=True):
+        st.session_state['show_panel'] = not st.session_state['show_panel']
+
 st.title("📁 컴퓨터 정리의 기본")
 
-# 왼쪽 사이드바
+# 왼쪽 사이드바 - 사용 안내
 with st.sidebar:
-    # 방문자 수와 의견남기기 버튼
-    st.markdown("---")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric("👥 방문자", st.session_state['visitor_count'])
-    with col2:
-        if st.button("💬 의견", use_container_width=True):
-            st.session_state['show_panel'] = not st.session_state['show_panel']
-    
-    st.markdown("---")
-    
     st.header("📖 사용 방법")
     
     st.markdown("""
@@ -156,7 +185,7 @@ with tab1:
     st.header("📂 폴더 내 모든 파일을 한 폴더에 놓기")
     st.markdown("ZIP 파일을 업로드하면 모든 파일을 한 곳에 모아서 다시 압축해드립니다.")
     
-    # 파일 업로드 버튼의 가로폭을 2배로
+    # 파일 업로드 버튼의 가로폭을 2배로 (3칸 중 2칸 사용)
     col_upload, col_empty = st.columns([2, 1])
     with col_upload:
         uploaded_zip = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab1")
@@ -226,7 +255,7 @@ with tab2:
     st.header("✏️ 폴더 내 모든 파일들의 제목 수정")
     st.markdown("ZIP 파일을 업로드한 후 옵션을 선택하고 실행하세요")
     
-    # 파일 업로드 버튼의 가로폭을 2배로
+    # 파일 업로드 버튼의 가로폭을 2배로 (3칸 중 2칸 사용)
     col_upload, col_empty = st.columns([2, 1])
     with col_upload:
         uploaded_zip_2 = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab2")
@@ -289,6 +318,7 @@ with tab2:
                             for file_name in filtered_files:
                                 file_content = input_zip_2.read(file_name)
                                 file_size = len(file_content)
+                                # 수정 시간은 ZIP에서 직접 가져오기
                                 file_info.append({
                                     'name': file_name,
                                     'content': file_content,
@@ -355,7 +385,7 @@ with tab3:
     st.header("📦 폴더 내 모든 압축파일 자동 해제")
     st.markdown("ZIP 파일을 업로드하면 내부의 모든 압축파일(.zip, .rar, .7z 등)을 해제하고 원본 압축파일을 제거합니다.")
     
-    # 파일 업로드 버튼의 가로폭을 2배로
+    # 파일 업로드 버튼의 가로폭을 2배로 (3칸 중 2칸 사용)
     col_upload, col_empty = st.columns([2, 1])
     with col_upload:
         uploaded_zip_3 = st.file_uploader("📁 ZIP 파일 업로드", type="zip", key="uploader_tab3")
@@ -402,7 +432,7 @@ with tab3:
                     
                     for archive_name, archive_content, archive_ext in archive_files:
                         try:
-                            # ZIP 파일만 처리
+                            # ZIP 파일만 처리 (다른 형식은 바이너리로 저장)
                             if archive_ext == '.zip':
                                 archive_buffer = io.BytesIO(archive_content)
                                 try:
@@ -426,7 +456,7 @@ with tab3:
                                             
                                             total_extracted += 1
                                             
-                                            # 중첩된 압축파일도 해제
+                                            # 중첩된 압축파일도 해제할지 확인
                                             if nested_extract:
                                                 inner_ext = os.path.splitext(inner_file_name)[1].lower()
                                                 if inner_ext == '.zip':
@@ -453,20 +483,23 @@ with tab3:
                                                     except:
                                                         pass
                                     
+                                    # 원본 압축파일 보관하지 않음 (기본값)
                                     if not keep_original and archive_name in extracted_files:
                                         del extracted_files[archive_name]
                                 
                                 except:
+                                    # 손상된 ZIP 파일이면 그냥 저장
                                     if keep_original:
                                         extracted_files[archive_name] = archive_content
                             else:
+                                # ZIP이 아닌 다른 압축파일은 그냥 저장
                                 if keep_original:
                                     extracted_files[archive_name] = archive_content
                         except:
                             if keep_original:
                                 extracted_files[archive_name] = archive_content
                     
-                    # 원본 압축파일 제거
+                    # 원본 압축파일도 해제하지 않을 경우 제거
                     if not keep_original:
                         for archive_name, _, _ in archive_files:
                             if archive_name in extracted_files:
