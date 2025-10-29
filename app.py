@@ -31,81 +31,15 @@ if 'page' not in st.session_state:
     st.session_state['page'] = 'main'
 
 # 우측 상단에 방문자 정보 표시
-col1, col2, col3 = st.columns([2, 1, 1])
-with col1:
-    if st.button("💬 게시판", use_container_width=True, key="board_link"):
-        st.session_state['page'] = 'board'
-        st.rerun()
-
-with col3:
+col1, col2 = st.columns([3, 1])
+with col2:
     st.metric(
         label="👥 오늘 방문자",
         value=st.session_state['visitor_count'],
         delta=None
     )
 
-# ==================== 게시판 페이지 ====================
-if st.session_state['page'] == 'board':
-    st.title("💬 의견 게시판")
-    st.markdown("---")
-    
-    # 게시판 데이터 초기화
-    if 'posts' not in st.session_state:
-        st.session_state['posts'] = []
-    
-    # 새 글 작성
-    st.header("✍️ 새 의견 작성")
-    col_name, col_email = st.columns(2)
-    with col_name:
-        author_name = st.text_input("이름", placeholder="이름을 입력하세요")
-    with col_email:
-        author_email = st.text_input("이메일 (선택)", placeholder="이메일을 입력하세요")
-    
-    post_content = st.text_area("의견", placeholder="수정 의견이나 개선사항을 작성해주세요", height=150)
-    
-    if st.button("📤 의견 제출", use_container_width=True):
-        if not author_name or not post_content:
-            st.error("❌ 이름과 의견을 입력해주세요")
-        else:
-            new_post = {
-                'name': author_name,
-                'email': author_email if author_email else "비공개",
-                'content': post_content,
-                'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            }
-            st.session_state['posts'].insert(0, new_post)
-            st.success("✅ 의견이 등록되었습니다!")
-            st.rerun()
-    
-    # 게시판 목록
-    st.markdown("---")
-    st.header("📋 의견 목록")
-    
-    if len(st.session_state['posts']) == 0:
-        st.info("📝 아직 의견이 없습니다. 첫 번째 의견을 남겨주세요!")
-    else:
-        for idx, post in enumerate(st.session_state['posts']):
-            with st.container(border=True):
-                col_info, col_del = st.columns([4, 1])
-                
-                with col_info:
-                    st.write(f"**{post['name']}** ({post['email']})")
-                    st.write(f"📅 {post['date']}")
-                    st.write(post['content'])
-                
-                with col_del:
-                    if st.button("🗑️", key=f"delete_{idx}", help="삭제"):
-                        st.session_state['posts'].pop(idx)
-                        st.rerun()
-    
-    # 메인으로 돌아가기
-    st.markdown("---")
-    if st.button("🏠 메인으로 돌아가기", use_container_width=True):
-        st.session_state['page'] = 'main'
-        st.rerun()
-
 # ==================== 메인 페이지 ====================
-else:
     st.title("📁 컴퓨터 정리의 기본")
 
     tab1, tab2, tab3 = st.tabs(["📂 모든 파일 한 곳에 모으기", "✏️ 파일명 일괄 수정", "📦 압축파일 자동 해제"])
@@ -462,8 +396,57 @@ else:
                 except Exception as e:
                     st.error(f"❌ 오류 발생: {str(e)}")
 
-    # 사이드바 - 사용 안내
+    # 사이드바 - 의견남기기
     with st.sidebar:
+        st.header("💬 의견남기기")
+        st.markdown("---")
+        
+        # 게시판 데이터 초기화
+        if 'posts' not in st.session_state:
+            st.session_state['posts'] = []
+        
+        # 새 글 작성
+        st.subheader("✍️ 의견 작성")
+        author_name = st.text_input("이름", placeholder="이름을 입력하세요", key="sidebar_name")
+        author_email = st.text_input("이메일 (선택)", placeholder="이메일을 입력하세요", key="sidebar_email")
+        
+        post_content = st.text_area("의견", placeholder="수정 의견이나 개선사항을 작성해주세요", height=100, key="sidebar_content")
+        
+        if st.button("📤 의견 제출", use_container_width=True, key="sidebar_submit"):
+            if not author_name or not post_content:
+                st.error("❌ 이름과 의견을 입력해주세요")
+            else:
+                new_post = {
+                    'name': author_name,
+                    'email': author_email if author_email else "비공개",
+                    'content': post_content,
+                    'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                }
+                st.session_state['posts'].insert(0, new_post)
+                st.success("✅ 의견이 등록되었습니다!")
+                st.rerun()
+        
+        # 게시판 목록
+        st.markdown("---")
+        st.subheader("📋 등록된 의견")
+        
+        if len(st.session_state['posts']) == 0:
+            st.info("📝 아직 의견이 없습니다.")
+        else:
+            for idx, post in enumerate(st.session_state['posts'][:5]):  # 최근 5개만 표시
+                with st.container(border=True):
+                    st.write(f"**{post['name']}**")
+                    st.write(f"📅 {post['date']}")
+                    st.caption(post['content'][:50] + "..." if len(post['content']) > 50 else post['content'])
+                    
+                    if st.button("🗑️", key=f"sidebar_delete_{idx}", help="삭제"):
+                        st.session_state['posts'].pop(idx)
+                        st.rerun()
+            
+            if len(st.session_state['posts']) > 5:
+                st.info(f"... 외 {len(st.session_state['posts']) - 5}개")
+        
+        st.markdown("---")
         st.header("📖 사용 방법")
         
         st.markdown("""
