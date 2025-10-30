@@ -30,14 +30,14 @@ st.markdown("""
         
         /* 사이드바용 작은 폰트 스타일 */
         section[data-testid="stSidebar"] h5 { 
-            font-size: 12px !important; 
+            font-size: 14px !important; 
             margin-top: 0.3rem !important; 
             margin-bottom: 0.1rem !important; 
             font-weight: bold !important; 
             line-height: 1.2 !important;
         }
         section[data-testid="stSidebar"] h6 { 
-            font-size: 10px !important; 
+            font-size: 12px !important; 
             margin-top: 0.1rem !important; 
             margin-bottom: 0.1rem !important; 
             line-height: 1.3 !important;
