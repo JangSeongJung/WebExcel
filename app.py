@@ -197,12 +197,12 @@ with st.sidebar:
     
     st.markdown("---")
     
-    st.markdown('<div style="background-color:#d1ecf1; border-left:4px solid #0c5460; padding:8px; border-radius:4px; margin:5px 0;"><p style="font-size:8px; margin:0; color:#0c5460;">💡 원본 파일은 변경되지 않습니다. 새로운 압축 파일로 제공됩니다.</p></div>', unsafe_allow_html=True)
+    st.markdown('<div style="background-color:#d1ecf1; border-left:4px solid #0c5460; padding:8px; border-radius:4px; margin:5px 0;"><p style="font-size:16px; margin:0; color:#0c5460;">💡 원본 파일은 변경되지 않습니다. 새로운 압축 파일로 제공됩니다.</p></div>', unsafe_allow_html=True)
     
     st.markdown("---")
     
-    st.markdown('<p style="font-size:10px; font-weight:bold; margin-bottom:5px;">📝 팁</p>', unsafe_allow_html=True)
-    st.markdown('<p style="font-size:8px; margin:2px 0;">• 사용자 폴더를 압축한 후 업로드하세요<br>• 모든 작업은 메모리에서 이루어집니다<br>• 다운로드한 ZIP 파일을 원하는 위치에서 압축 해제하세요</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:20px; font-weight:bold; margin-bottom:5px;">📝 팁</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:16px; margin:2px 0;">• 사용자 폴더를 압축한 후 업로드하세요<br>• 모든 작업은 메모리에서 이루어집니다<br>• 다운로드한 ZIP 파일을 원하는 위치에서 압축 해제하세요</p>', unsafe_allow_html=True)
 
 # 의견남기기 패널
 if st.session_state['show_panel']:
