@@ -17,6 +17,9 @@ st.markdown("""
         .main h1 { font-size: 24px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
         .main h2 { font-size: 21px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
         .main h3 { font-size: 18px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
+        .main h4 { font-size: 16px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
+        .main h5 { font-size: 9px !important; margin-top: 0.3rem !important; margin-bottom: 0.1rem !important; font-weight: bold !important; }
+        .main h6 { font-size: 8px !important; margin-top: 0.1rem !important; margin-bottom: 0.1rem !important; line-height: 1.3 !important; }
         .main p, .main span, .main div { font-size: 18px !important; margin-top: 0 !important; margin-bottom: 0 !important; }
         .main button { font-size: 18px !important; margin: 0 !important; }
         .main input { font-size: 18px !important; }
@@ -24,6 +27,22 @@ st.markdown("""
         .main label { font-size: 18px !important; }
         .main .stMetric { font-size: 18px !important; }
         .main .stMetricDelta { font-size: 18px !important; }
+        
+        /* 사이드바용 작은 폰트 스타일 */
+        section[data-testid="stSidebar"] h5 { 
+            font-size: 9px !important; 
+            margin-top: 0.3rem !important; 
+            margin-bottom: 0.1rem !important; 
+            font-weight: bold !important; 
+            line-height: 1.2 !important;
+        }
+        section[data-testid="stSidebar"] h6 { 
+            font-size: 8px !important; 
+            margin-top: 0.1rem !important; 
+            margin-bottom: 0.1rem !important; 
+            line-height: 1.3 !important;
+            font-weight: normal !important;
+        }
         
         /* 사이드바 항목 간격 거의 0으로 */
         section[data-testid="stSidebar"] > div {
@@ -183,17 +202,26 @@ with st.sidebar:
     
     st.markdown("---")
     
-    # 사용 방법 섹션 - 작은 글씨로
-    st.markdown('<p style="font-size:11px; font-weight:bold; margin-bottom:5px;">📖 사용 방법</p>', unsafe_allow_html=True)
+    # 사용 방법 섹션 - h5, h6 HTML 태그 사용
+    st.markdown("<h5>📖 사용 방법</h5>", unsafe_allow_html=True)
     
-    st.markdown('<p style="font-size:9px; font-weight:bold; margin:8px 0 3px 0;">🎯 기능 1: 파일 모으기</p>', unsafe_allow_html=True)
-    st.markdown('<p style="font-size:8px; margin:2px 0; padding-left:10px;">1. ZIP 파일 업로드<br>2. \'파일 모으기 시작\' 클릭<br>3. 압축 파일 다운로드</p>', unsafe_allow_html=True)
+    st.markdown("<h5>🎯 기능 1: 파일 모으기</h5>", unsafe_allow_html=True)
+    st.markdown("<h6>1. ZIP 파일 업로드</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>2. '파일 모으기 시작' 클릭</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>3. 압축 파일 다운로드</h6>", unsafe_allow_html=True)
     
-    st.markdown('<p style="font-size:9px; font-weight:bold; margin:8px 0 3px 0;">🎯 기능 2: 파일명 변경</p>', unsafe_allow_html=True)
-    st.markdown('<p style="font-size:8px; margin:2px 0; padding-left:10px;">1. ZIP 파일 업로드<br>2. 확장자 & 정렬 기준 선택<br>3. 파일명 형식 선택<br>4. \'파일명 변경 시작\' 클릭<br>5. 압축 파일 다운로드</p>', unsafe_allow_html=True)
+    st.markdown("<h5>🎯 기능 2: 파일명 변경</h5>", unsafe_allow_html=True)
+    st.markdown("<h6>1. ZIP 파일 업로드</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>2. 확장자 & 정렬 기준 선택</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>3. 파일명 형식 선택</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>4. '파일명 변경 시작' 클릭</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>5. 압축 파일 다운로드</h6>", unsafe_allow_html=True)
     
-    st.markdown('<p style="font-size:9px; font-weight:bold; margin:8px 0 3px 0;">🎯 기능 3: 압축파일 자동 해제</p>', unsafe_allow_html=True)
-    st.markdown('<p style="font-size:8px; margin:2px 0; padding-left:10px;">1. ZIP 파일 업로드<br>2. 옵션 선택<br>3. \'압축파일 해제 시작\' 클릭<br>4. 처리된 파일 다운로드</p>', unsafe_allow_html=True)
+    st.markdown("<h5>🎯 기능 3: 압축파일 자동 해제</h5>", unsafe_allow_html=True)
+    st.markdown("<h6>1. ZIP 파일 업로드</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>2. 옵션 선택</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>3. '압축파일 해제 시작' 클릭</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>4. 처리된 파일 다운로드</h6>", unsafe_allow_html=True)
     
     st.markdown("---")
     
