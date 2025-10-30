@@ -206,22 +206,22 @@ with st.sidebar:
     st.markdown("<h5>📖 사용 방법</h5>", unsafe_allow_html=True)
     
     st.markdown("<h5>🎯 기능 1: 파일 모으기</h5>", unsafe_allow_html=True)
-    st.markdown("<h6>1. ZIP 파일 업로드</h6>", unsafe_allow_html=True)
-    st.markdown("<h6>2. '파일 모으기 시작' 클릭</h6>", unsafe_allow_html=True)
-    st.markdown("<h6>3. 압축 파일 다운로드</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    1. ZIP 파일 업로드</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    2. '파일 모으기 시작' 클릭</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    3. 압축 파일 다운로드</h6>", unsafe_allow_html=True)
     
     st.markdown("<h5>🎯 기능 2: 파일명 변경</h5>", unsafe_allow_html=True)
-    st.markdown("<h6>1. ZIP 파일 업로드</h6>", unsafe_allow_html=True)
-    st.markdown("<h6>2. 확장자 & 정렬 기준 선택</h6>", unsafe_allow_html=True)
-    st.markdown("<h6>3. 파일명 형식 선택</h6>", unsafe_allow_html=True)
-    st.markdown("<h6>4. '파일명 변경 시작' 클릭</h6>", unsafe_allow_html=True)
-    st.markdown("<h6>5. 압축 파일 다운로드</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    1. ZIP 파일 업로드</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    2. 확장자 & 정렬 기준 선택</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    3. 파일명 형식 선택</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    4. '파일명 변경 시작' 클릭</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    5. 압축 파일 다운로드</h6>", unsafe_allow_html=True)
     
     st.markdown("<h5>🎯 기능 3: 압축파일 자동 해제</h5>", unsafe_allow_html=True)
-    st.markdown("<h6>1. ZIP 파일 업로드</h6>", unsafe_allow_html=True)
-    st.markdown("<h6>2. 옵션 선택</h6>", unsafe_allow_html=True)
-    st.markdown("<h6>3. '압축파일 해제 시작' 클릭</h6>", unsafe_allow_html=True)
-    st.markdown("<h6>4. 처리된 파일 다운로드</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    1. ZIP 파일 업로드</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    2. 옵션 선택</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    3. '압축파일 해제 시작' 클릭</h6>", unsafe_allow_html=True)
+    st.markdown("<h6>    4. 처리된 파일 다운로드</h6>", unsafe_allow_html=True)
     
     st.markdown("---")
     
@@ -289,6 +289,7 @@ tab1, tab2, tab3 = st.tabs(["📂 모든 파일 한 곳에 모으기", "✏️ �
 with tab1:
     st.header("📂 폴더 내 모든 파일을 한 폴더에 놓기")
     st.markdown("ZIP 파일을 업로드하면 모든 파일을 한 곳에 모아서 다시 압축해드립니다.")
+    st.markdown("ZIP 파일로만 가능합니다.")
     
     # 파일 업로드 버튼의 가로폭을 2배로 (3칸 중 2칸 사용)
     col_upload, col_empty = st.columns([2, 1])
@@ -359,6 +360,7 @@ with tab1:
 with tab2:
     st.header("✏️ 폴더 내 모든 파일들의 제목 수정")
     st.markdown("ZIP 파일을 업로드한 후 옵션을 선택하고 실행하세요")
+    st.markdown("ZIP 파일로만 가능합니다.")
     
     # 파일 업로드 버튼의 가로폭을 2배로 (3칸 중 2칸 사용)
     col_upload, col_empty = st.columns([2, 1])
@@ -489,6 +491,7 @@ with tab2:
 with tab3:
     st.header("📦 폴더 내 모든 압축파일 자동 해제")
     st.markdown("ZIP 파일을 업로드하면 내부의 모든 압축파일(.zip, .rar, .7z 등)을 해제하고 원본 압축파일을 제거합니다.")
+    st.markdown("ZIP 파일로만 가능합니다.")
     
     # 파일 업로드 버튼의 가로폭을 2배로 (3칸 중 2칸 사용)
     col_upload, col_empty = st.columns([2, 1])
