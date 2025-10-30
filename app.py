@@ -183,49 +183,26 @@ with st.sidebar:
     
     st.markdown("---")
     
-    # 사용 방법 섹션 - HTML로 직접 작성
-    st.markdown("""
-        <div style="font-size: 8px; line-height: 1.2;">
-            <p style="font-size: 10px; font-weight: bold; margin: 0.2rem 0;">📖 사용 방법</p>
-            
-            <p style="font-size: 8px; font-weight: bold; margin: 0.3rem 0 0.1rem 0;">🎯 기능 1: 파일 모으기</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">1. ZIP 파일 업로드</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">2. '파일 모으기 시작' 클릭</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">3. 압축 파일 다운로드</p>
-            
-            <p style="font-size: 8px; font-weight: bold; margin: 0.3rem 0 0.1rem 0;">🎯 기능 2: 파일명 변경</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">1. ZIP 파일 업로드</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">2. 확장자 & 정렬 기준 선택</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">3. 파일명 형식 선택</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">4. '파일명 변경 시작' 클릭</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">5. 압축 파일 다운로드</p>
-            
-            <p style="font-size: 8px; font-weight: bold; margin: 0.3rem 0 0.1rem 0;">🎯 기능 3: 압축파일 자동 해제</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">1. ZIP 파일 업로드</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">2. 옵션 선택</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">3. '압축파일 해제 시작' 클릭</p>
-            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">4. 처리된 파일 다운로드</p>
-        </div>
-    """, unsafe_allow_html=True)
+    # 사용 방법 섹션 - 작은 글씨로
+    st.markdown('<p style="font-size:11px; font-weight:bold; margin-bottom:5px;">📖 사용 방법</p>', unsafe_allow_html=True)
+    
+    st.markdown('<p style="font-size:9px; font-weight:bold; margin:8px 0 3px 0;">🎯 기능 1: 파일 모으기</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:8px; margin:2px 0; padding-left:10px;">1. ZIP 파일 업로드<br>2. \'파일 모으기 시작\' 클릭<br>3. 압축 파일 다운로드</p>', unsafe_allow_html=True)
+    
+    st.markdown('<p style="font-size:9px; font-weight:bold; margin:8px 0 3px 0;">🎯 기능 2: 파일명 변경</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:8px; margin:2px 0; padding-left:10px;">1. ZIP 파일 업로드<br>2. 확장자 & 정렬 기준 선택<br>3. 파일명 형식 선택<br>4. \'파일명 변경 시작\' 클릭<br>5. 압축 파일 다운로드</p>', unsafe_allow_html=True)
+    
+    st.markdown('<p style="font-size:9px; font-weight:bold; margin:8px 0 3px 0;">🎯 기능 3: 압축파일 자동 해제</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:8px; margin:2px 0; padding-left:10px;">1. ZIP 파일 업로드<br>2. 옵션 선택<br>3. \'압축파일 해제 시작\' 클릭<br>4. 처리된 파일 다운로드</p>', unsafe_allow_html=True)
     
     st.markdown("---")
     
-    st.markdown("""
-        <div style="background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 0.3rem; border-radius: 4px;">
-            <p style="font-size: 8px; margin: 0; color: #0c5460;">💡 원본 파일은 변경되지 않습니다. 새로운 압축 파일로 제공됩니다.</p>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div style="background-color:#d1ecf1; border-left:4px solid #0c5460; padding:8px; border-radius:4px; margin:5px 0;"><p style="font-size:8px; margin:0; color:#0c5460;">💡 원본 파일은 변경되지 않습니다. 새로운 압축 파일로 제공됩니다.</p></div>', unsafe_allow_html=True)
     
     st.markdown("---")
     
-    st.markdown("""
-        <div style="font-size: 8px; line-height: 1.2;">
-            <p style="font-size: 9px; font-weight: bold; margin: 0.2rem 0;">📝 팁</p>
-            <p style="font-size: 7px; margin: 0.1rem 0;">• 사용자 폴더를 압축한 후 업로드하세요</p>
-            <p style="font-size: 7px; margin: 0.1rem 0;">• 모든 작업은 메모리에서 이루어집니다</p>
-            <p style="font-size: 7px; margin: 0.1rem 0;">• 다운로드한 ZIP 파일을 원하는 위치에서 압축 해제하세요</p>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<p style="font-size:10px; font-weight:bold; margin-bottom:5px;">📝 팁</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:8px; margin:2px 0;">• 사용자 폴더를 압축한 후 업로드하세요<br>• 모든 작업은 메모리에서 이루어집니다<br>• 다운로드한 ZIP 파일을 원하는 위치에서 압축 해제하세요</p>', unsafe_allow_html=True)
 
 # 의견남기기 패널
 if st.session_state['show_panel']:
