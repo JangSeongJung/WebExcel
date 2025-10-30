@@ -188,13 +188,13 @@ with st.sidebar:
         /* 사이드바 내의 사용방법 섹션만 작게 */
         section[data-testid="stSidebar"] .small-font-section h2,
         section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] h2 {
-            font-size: 9px !important;
-            line-height: 1.2 !important;
+            font-size: 7px !important;
+            line-height: 1.1 !important;
         }
         section[data-testid="stSidebar"] .small-font-section h3,
         section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] h3 {
-            font-size: 7px !important;
-            line-height: 1.2 !important;
+            font-size: 6px !important;
+            line-height: 1.1 !important;
             font-weight: bold !important;
         }
         section[data-testid="stSidebar"] .small-font-section p,
@@ -203,21 +203,21 @@ with st.sidebar:
         section[data-testid="stSidebar"] .small-font-section div,
         section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] p,
         section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] li {
-            font-size: 7px !important;
-            line-height: 1.2 !important;
+            font-size: 6px !important;
+            line-height: 1.1 !important;
         }
         section[data-testid="stSidebar"] .small-font-section ul,
         section[data-testid="stSidebar"] .small-font-section ol {
-            font-size: 7px !important;
-            padding-left: 1rem !important;
+            font-size: 6px !important;
+            padding-left: 0.8rem !important;
         }
         section[data-testid="stSidebar"] .small-font-section .stMarkdown * {
-            font-size: 7px !important;
+            font-size: 6px !important;
         }
         section[data-testid="stSidebar"] .small-font-section .stAlert,
         section[data-testid="stSidebar"] .small-font-section .stAlert * {
-            font-size: 7px !important;
-            padding: 0.2rem !important;
+            font-size: 6px !important;
+            padding: 0.15rem !important;
         }
         </style>
     """, unsafe_allow_html=True)
