@@ -18,8 +18,8 @@ st.markdown("""
         .main h2 { font-size: 21px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
         .main h3 { font-size: 18px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
         .main h4 { font-size: 16px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
-        .main h5 { font-size: 9px !important; margin-top: 0.3rem !important; margin-bottom: 0.1rem !important; font-weight: bold !important; }
-        .main h6 { font-size: 8px !important; margin-top: 0.1rem !important; margin-bottom: 0.1rem !important; line-height: 1.3 !important; }
+        .main h5 { font-size: 14px !important; margin-top: 0.3rem !important; margin-bottom: 0.1rem !important; font-weight: bold !important; }
+        .main h6 { font-size: 10px !important; margin-top: 0.1rem !important; margin-bottom: 0.1rem !important; line-height: 1.3 !important; }
         .main p, .main span, .main div { font-size: 18px !important; margin-top: 0 !important; margin-bottom: 0 !important; }
         .main button { font-size: 18px !important; margin: 0 !important; }
         .main input { font-size: 18px !important; }
