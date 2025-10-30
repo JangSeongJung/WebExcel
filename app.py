@@ -10,19 +10,20 @@ st.set_page_config(page_title="컴퓨터 정리의 기본", layout="wide", page_
 # 폰트 크기 조정 및 고정 헤더 스타일
 st.markdown("""
     <style>
-        html, body, [class*="css"] {
+        /* 메인 영역만 18px 적용 (사이드바 제외) */
+        .main html, .main body, .main [class*="css"] {
             font-size: 18px !important;
         }
-        h1 { font-size: 24px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
-        h2 { font-size: 21px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
-        h3 { font-size: 18px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
-        p, span, div { font-size: 18px !important; margin-top: 0 !important; margin-bottom: 0 !important; }
-        button { font-size: 18px !important; margin: 0 !important; }
-        input { font-size: 18px !important; }
-        textarea { font-size: 18px !important; }
-        label { font-size: 18px !important; }
-        .stMetric { font-size: 18px !important; }
-        .stMetricDelta { font-size: 18px !important; }
+        .main h1 { font-size: 24px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
+        .main h2 { font-size: 21px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
+        .main h3 { font-size: 18px !important; margin-top: 0 !important; margin-bottom: 0.2rem !important; }
+        .main p, .main span, .main div { font-size: 18px !important; margin-top: 0 !important; margin-bottom: 0 !important; }
+        .main button { font-size: 18px !important; margin: 0 !important; }
+        .main input { font-size: 18px !important; }
+        .main textarea { font-size: 18px !important; }
+        .main label { font-size: 18px !important; }
+        .main .stMetric { font-size: 18px !important; }
+        .main .stMetricDelta { font-size: 18px !important; }
         
         /* 사이드바 항목 간격 거의 0으로 */
         section[data-testid="stSidebar"] > div {
@@ -182,80 +183,49 @@ with st.sidebar:
     
     st.markdown("---")
     
-    # 사용 방법 섹션 - 작은 폰트로 표시
+    # 사용 방법 섹션 - HTML로 직접 작성
     st.markdown("""
-        <style>
-        /* 사이드바 내의 사용방법 섹션만 작게 */
-        section[data-testid="stSidebar"] .small-font-section h2,
-        section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] h2 {
-            font-size: 9px !important;
-            line-height: 1.2 !important;
-        }
-        section[data-testid="stSidebar"] .small-font-section h3,
-        section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] h3 {
-            font-size: 7px !important;
-            line-height: 1.2 !important;
-            font-weight: bold !important;
-        }
-        section[data-testid="stSidebar"] .small-font-section p,
-        section[data-testid="stSidebar"] .small-font-section li,
-        section[data-testid="stSidebar"] .small-font-section span,
-        section[data-testid="stSidebar"] .small-font-section div,
-        section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] p,
-        section[data-testid="stSidebar"] .small-font-section [data-testid="stMarkdownContainer"] li {
-            font-size: 7px !important;
-            line-height: 1.2 !important;
-        }
-        section[data-testid="stSidebar"] .small-font-section ul,
-        section[data-testid="stSidebar"] .small-font-section ol {
-            font-size: 7px !important;
-            padding-left: 1rem !important;
-        }
-        section[data-testid="stSidebar"] .small-font-section .stMarkdown * {
-            font-size: 7px !important;
-        }
-        section[data-testid="stSidebar"] .small-font-section .stAlert,
-        section[data-testid="stSidebar"] .small-font-section .stAlert * {
-            font-size: 7px !important;
-            padding: 0.2rem !important;
-        }
-        </style>
+        <div style="font-size: 8px; line-height: 1.2;">
+            <p style="font-size: 10px; font-weight: bold; margin: 0.2rem 0;">📖 사용 방법</p>
+            
+            <p style="font-size: 8px; font-weight: bold; margin: 0.3rem 0 0.1rem 0;">🎯 기능 1: 파일 모으기</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">1. ZIP 파일 업로드</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">2. '파일 모으기 시작' 클릭</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">3. 압축 파일 다운로드</p>
+            
+            <p style="font-size: 8px; font-weight: bold; margin: 0.3rem 0 0.1rem 0;">🎯 기능 2: 파일명 변경</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">1. ZIP 파일 업로드</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">2. 확장자 & 정렬 기준 선택</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">3. 파일명 형식 선택</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">4. '파일명 변경 시작' 클릭</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">5. 압축 파일 다운로드</p>
+            
+            <p style="font-size: 8px; font-weight: bold; margin: 0.3rem 0 0.1rem 0;">🎯 기능 3: 압축파일 자동 해제</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">1. ZIP 파일 업로드</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">2. 옵션 선택</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">3. '압축파일 해제 시작' 클릭</p>
+            <p style="font-size: 7px; margin: 0.1rem 0; padding-left: 0.5rem;">4. 처리된 파일 다운로드</p>
+        </div>
     """, unsafe_allow_html=True)
     
-    st.markdown('<div class="small-font-section">', unsafe_allow_html=True)
-    st.header("📖 사용 방법")
+    st.markdown("---")
     
     st.markdown("""
-    ### 🎯 기능 1: 파일 모으기
-    1. ZIP 파일 업로드
-    2. '파일 모으기 시작' 클릭
-    3. 압축 파일 다운로드
-    
-    ### 🎯 기능 2: 파일명 변경
-    1. ZIP 파일 업로드
-    2. 확장자 & 정렬 기준 선택
-    3. 파일명 형식 선택
-    4. '파일명 변경 시작' 클릭
-    5. 압축 파일 다운로드
-    
-    ### 🎯 기능 3: 압축파일 자동 해제
-    1. ZIP 파일 업로드
-    2. 옵션 선택
-    3. '압축파일 해제 시작' 클릭
-    4. 처리된 파일 다운로드
-    """)
+        <div style="background-color: #d1ecf1; border-left: 4px solid #0c5460; padding: 0.3rem; border-radius: 4px;">
+            <p style="font-size: 8px; margin: 0; color: #0c5460;">💡 원본 파일은 변경되지 않습니다. 새로운 압축 파일로 제공됩니다.</p>
+        </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("---")
-    st.info("💡 원본 파일은 변경되지 않습니다. 새로운 압축 파일로 제공됩니다.")
     
-    st.markdown("---")
-    st.markdown("### 📝 팁")
     st.markdown("""
-    - 사용자 폴더를 압축한 후 업로드하세요
-    - 모든 작업은 메모리에서 이루어집니다
-    - 다운로드한 ZIP 파일을 원하는 위치에서 압축 해제하세요
-    """)
-    st.markdown('</div>', unsafe_allow_html=True)
+        <div style="font-size: 8px; line-height: 1.2;">
+            <p style="font-size: 9px; font-weight: bold; margin: 0.2rem 0;">📝 팁</p>
+            <p style="font-size: 7px; margin: 0.1rem 0;">• 사용자 폴더를 압축한 후 업로드하세요</p>
+            <p style="font-size: 7px; margin: 0.1rem 0;">• 모든 작업은 메모리에서 이루어집니다</p>
+            <p style="font-size: 7px; margin: 0.1rem 0;">• 다운로드한 ZIP 파일을 원하는 위치에서 압축 해제하세요</p>
+        </div>
+    """, unsafe_allow_html=True)
 
 # 의견남기기 패널
 if st.session_state['show_panel']:
